@@ -27,7 +27,7 @@ namespace VentasLimpieza.Core.Helpers
                 "yyyy/MM/dd",
                 "yyyy-MM-dd",
                 "yyyy/MM/dd H:mm:ss" ,
-                "yyyy-MM-dd HH:mm:ss",
+                "yyyy-MM-dd HH:mm:ss",            //estas usa la base de datos
                 "yyyy-MM-dd H:mm:ss" ,
                 "yyyy/MM/dd HH:mm:ss",
 

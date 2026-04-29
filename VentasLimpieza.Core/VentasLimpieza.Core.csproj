@@ -14,8 +14,4 @@
     <Compile Remove="Interfaces\IReseñaRepository.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="QueryFilter\EntitiesDapper\" />
-  </ItemGroup>
-
 </Project>

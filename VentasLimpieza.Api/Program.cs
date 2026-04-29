@@ -34,6 +34,7 @@ namespace VentasLimpieza.Api
             builder.Services.AddTransient<IProductoService, ProductoService>();
             builder.Services.AddTransient<IDetallepedidoService, DetallepedidoService>();
             builder.Services.AddTransient<ILoteproductoService, LoteproductoService>();
+            builder.Services.AddTransient<ICodigoseguridadService, CodigoseguridadService>();
 
 
 
@@ -44,6 +45,7 @@ namespace VentasLimpieza.Api
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
             builder.Services.AddScoped<IDapperContext, DapperContext>();
+
             // Configurar Newtonsoft.Json para manejar ciclos de referencia
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Hosting;
 using System.Net;
 using VentasLimpieza.Core.EntidadesAux;
 using VentasLimpieza.Core.Entities;
@@ -66,6 +67,13 @@ namespace VentasLimpieza.Services.Services
             return usuarios;
         }
 
+
+
+        public async Task ActualizarContraseña()
+        {
+           
+        }
+
         public async Task<Usuario> GetUsuarioByIdAsync(int id)
         {
             //return await _usuarioRepository.GetById(id);
@@ -83,7 +91,7 @@ namespace VentasLimpieza.Services.Services
 
             if (ContainsFobbidenWord(usuario.Apellido))
             {
-                throw new Exception("Apellido no permitido");
+                throw new BussinesExeption("Apellido no permitido",HttpStatusCode.BadRequest);
             }
             if (ContainsFobbidenWord(usuario.Nombre))
             {
