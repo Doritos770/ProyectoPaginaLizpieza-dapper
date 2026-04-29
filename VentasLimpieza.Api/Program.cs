@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using VentasLimpieza.Api.Filters;
 using VentasLimpieza.Core.Interfaces;
 using VentasLimpieza.Infrastructure.Data;
 using VentasLimpieza.Infrastructure.Mapping;
@@ -29,6 +30,10 @@ namespace VentasLimpieza.Api
             // builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>(); 
 
             builder.Services.AddTransient<IUsuarioService, UsuariosService>();
+            builder.Services.AddTransient<IProductoService, ProductoService>();
+            builder.Services.AddTransient<IDetallepedidoService, DetallepedidoService>();
+            builder.Services.AddTransient<ILoteproductoService, LoteproductoService>();
+
             builder.Services.AddScoped(
                 typeof(IBaseRepository<>), 
                 typeof(BaseRepository<>));
@@ -59,6 +64,8 @@ namespace VentasLimpieza.Api
             });
 
             var app = builder.Build();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>(); 
 
             if (app.Environment.IsDevelopment())
             {

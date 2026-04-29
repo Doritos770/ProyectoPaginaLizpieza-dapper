@@ -23,6 +23,14 @@ namespace VentasLimpieza.Core.Helpers
                 "dd-MM-yyyy",               // otra versión con 12h
                 "dd/MM/yyyy",
 
+                // fechas yyyy/mm/dd
+                "yyyy/MM/dd",
+                "yyyy-MM-dd",
+                "yyyy/MM/dd H:mm:ss" ,
+                "yyyy-MM-dd HH:mm:ss",
+                "yyyy-MM-dd H:mm:ss" ,
+                "yyyy/MM/dd HH:mm:ss",
+
                 //Fecha y hora dd/mm/yyyy
                 "d-M-yyyy h:mm:ss tt",      // 12 horas con a. m. / p. m.
                 "d-M-yyyy H:mm:ss",         // 24 horas

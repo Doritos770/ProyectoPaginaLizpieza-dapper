@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using VentasLimpieza.core.Entities;
-using VentasLimpieza.Core.EntidadesAux;
-using VentasLimpieza.Core.Interfaces;
-using VentasLimpieza.Core.UsuarioQueryFilter;
+﻿using VentasLimpieza.Core.Entities;
+using VentasLimpieza.Core.QueryFilter;
 
 namespace VentasLimpieza.Services.Interfaces
 {
@@ -14,10 +9,8 @@ namespace VentasLimpieza.Services.Interfaces
         Task<IEnumerable<Usuario>> GetAllUsersAsync(UsuarioQueryFilter? filters=null);//a todos
         Task<Usuario> GetUsuarioByIdAsync(int id);//con id
         Task RegistrarUsuario(Usuario usuario);
-        Task UpdateUsuario(Usuario usuario);
+        void UpdateUsuario(Usuario usuario);
         Task DeleteUsuario(int id);
-        Task<SolicitarRecuperacionResponse> SolicitarCodigoRecuperacion(string email, string telefono);
-        Task VerificarCodigoYCambiarContraseña(string email, string codigo, string nuevaContraseña);
         //Task<Usuario> GetUsuarioByEmail(string email);
         //Task<bool> EmailExists(string email);
     }

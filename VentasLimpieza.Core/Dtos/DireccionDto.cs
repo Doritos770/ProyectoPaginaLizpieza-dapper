@@ -18,5 +18,5 @@ public partial class DireccionDto
     public string Pais { get; set; } = null!;
 
     public ulong Principal { get; set; }
-    //why principal?? 
+    
 }

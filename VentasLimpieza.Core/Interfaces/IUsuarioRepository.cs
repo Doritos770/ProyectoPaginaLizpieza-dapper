@@ -1,15 +1,9 @@
-﻿using VentasLimpieza.core.Entities;
+﻿using VentasLimpieza.Core.Entities;
+using VentasLimpieza.Core.Interfaces;
 
 namespace VentasLimpieza.core.Interfaces; 
 
-public interface IUsuarioRepository
+public interface IUsuarioRepository : IBaseRepository<Usuario>
 {
-    Task<IEnumerable<Usuario>> GetUsuariosAsync();
-    Task<Usuario> GetUsuarioByIdAsync(int id);
-    Task InsertUsuario(Usuario usuario);
-    Task UpdateUsuario(Usuario usuario);
-    Task DeleteUsuario(Usuario usuario);
-
-    //proximanete implementado
-//    Task ModifiqueDireccionUsuario(int id, Direccion direccion);
+    Task<IEnumerable<Usuario>> GetUsuarioByIdAsync(int id);
 }

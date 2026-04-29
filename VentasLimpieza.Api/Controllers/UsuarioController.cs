@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using VentasLimpieza.Api.Responses;
 using VentasLimpieza.core.Dtos;
-using VentasLimpieza.core.Entities;
-using VentasLimpieza.Core.EntidadesAux;
-using VentasLimpieza.Core.UsuarioQueryFilter;
+using VentasLimpieza.Core.Entities;
+using VentasLimpieza.Core.QueryFilter;
 using VentasLimpieza.Services.Interfaces;
 using VentasLimpieza.Services.Validators;
 
@@ -53,7 +52,7 @@ namespace VentasLimpieza.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUsuario(Usuario usuario)
         {
-            await _usuarioServices.UpdateUsuario(usuario);
+             _usuarioServices.UpdateUsuario(usuario);
             return NoContent();
         }
 
@@ -139,7 +138,7 @@ namespace VentasLimpieza.Api.Controllers
             usuario.FechaRegistro = usuarioDto.FechaRegistro;
             usuario.IsActive = usuarioDto.IsActive;
 
-            await _usuarioServices.UpdateUsuario(usuario);
+             _usuarioServices.UpdateUsuario(usuario);
             return NoContent();
         }
 
@@ -156,7 +155,7 @@ namespace VentasLimpieza.Api.Controllers
         #endregion
 
         #region Mapper
-        [HttpGet("dto/mapper/")]
+        [HttpGet("dto/mapper")]
         //?userId=1
         public async Task<IActionResult> GetDtoMapperUsuario(
             [FromQuery] UsuarioQueryFilter? filters)
@@ -244,7 +243,7 @@ namespace VentasLimpieza.Api.Controllers
             try
             {
                 _mapper.Map(usuarioDto, usuario);
-                await _usuarioServices.UpdateUsuario(usuario);
+                 _usuarioServices.UpdateUsuario(usuario);
 
                 var response = new ApiResponse<UsuarioDto>(usuarioDto);
                 return Ok(response);
@@ -269,51 +268,6 @@ namespace VentasLimpieza.Api.Controllers
             await _usuarioServices.DeleteUsuario(usuario.Id);
             return NoContent();
         }
-        #endregion
-
-        #region Recuperación de Contraseña
-
-        
-        [HttpPost("recuperar/solicitar")]
-        public async Task<IActionResult> SolicitarCodigo([FromBody] SolicitarRecuperacionDto request)
-        {
-            try
-            {
-                var resultado = await _usuarioServices.SolicitarCodigoRecuperacion(
-                    request.Email,
-                    request.Telefono);
-
-                return Ok(resultado);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { success = false, error = ex.Message });
-            }
-        }
-
-        // Paso 2: Verificar código y cambiar contraseña
-        [HttpPost("recuperar/verificar")]
-        public async Task<IActionResult> VerificarCodigo([FromBody] VerificarCodigoDto request)
-        {
-            try
-            {
-                await _usuarioServices.VerificarCodigoYCambiarContraseña(
-                    request.Email,
-                    request.Codigo,
-                    request.NuevaContraseña);
-
-                return Ok(new
-                {
-                    success = true,
-                    message = "Contraseña actualizada exitosamente"
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { success = false, error = ex.Message });
-            }
-        }
-
         #endregion
     }
 }

@@ -1,7 +1,11 @@
-﻿using VentasLimpieza.core.Entities;
+﻿using Microsoft.Extensions.Hosting;
+using System.Net;
 using VentasLimpieza.Core.EntidadesAux;
+using VentasLimpieza.Core.Entities;
+using VentasLimpieza.Core.Exceptions;
+using VentasLimpieza.Core.Helpers;
 using VentasLimpieza.Core.Interfaces;
-using VentasLimpieza.Core.UsuarioQueryFilter;
+using VentasLimpieza.Core.QueryFilter;
 using VentasLimpieza.Services.Interfaces;
 
 namespace VentasLimpieza.Services.Services
@@ -9,7 +13,6 @@ namespace VentasLimpieza.Services.Services
     public class UsuariosService : IUsuarioService
     {
         
-        private static Dictionary<string, CodigoRecuperacion> _codigosRecuperacion = new();
         //public readonly IBaseRepository<Usuario> _usuarioRepository;
 
         //public UsuariosService(IBaseRepository<Usuario> usuarioRepository)
@@ -23,7 +26,7 @@ namespace VentasLimpieza.Services.Services
         }
 
         public async Task<IEnumerable<Usuario>> GetAllUsersAsync(
-            UsuarioQueryFilter? filters=null)
+            UsuarioQueryFilter? filters=null)  //------------------------ ver
         {
             //return await _usuarioRepository.GetAll();
               //    todos los repos  //todas las transacciones //elementos del CRUD
@@ -31,22 +34,34 @@ namespace VentasLimpieza.Services.Services
             var usuarios = await _unitOfWork.UsuarioRepository.GetAll();
             if(filters != null)
             {
-                if (filters.Id != null)
+
+                if (filters.Email != null)
                 {
-                    usuarios = usuarios.Where(a => a.Id == filters.Id);
+                    usuarios = usuarios.Where(a => a.Email.ToLower().Contains(filters.Email.ToLower()));
                 }
-                if (filters.Apellido != null)
+                if (filters.Apellido!= null)
                 {
                     usuarios = usuarios.Where(a => a.Apellido.ToLower().Contains(filters.Apellido.ToLower()));
                 }
+
                 if (filters.Nombre != null)
                 {
-                    usuarios = usuarios.Where(a => a.Nombre.ToLower().Contains(filters.Apellido.ToLower()));
+                    usuarios = usuarios.Where(a => a.Nombre.ToLower().Contains(filters.Nombre.ToLower()));
                 } 
                 if (filters.Telefono != null)
                 {
                     usuarios = usuarios.Where(a => a.Telefono == filters.Telefono);
-                } 
+                }
+                if (filters.FechaRegistro != null)
+                {
+                    string fechaAux =
+                        Procesos.ParseFechaFlexible(filters.FechaRegistro);
+                    if (fechaAux != null)
+                    {
+                        usuarios = usuarios.Where(x => x.FechaRegistro.ToShortDateString() ==
+                        Convert.ToDateTime(fechaAux).ToShortDateString());
+                    }
+                }
             }
             return usuarios;
         }
@@ -77,104 +92,23 @@ namespace VentasLimpieza.Services.Services
 
             //await _usuarioRepository.Add(usuario);
             await _unitOfWork.UsuarioRepository.Add(usuario);
-        }
-
-        public async Task<SolicitarRecuperacionResponse> SolicitarCodigoRecuperacion(string email, string telefono)
-        {
-
-            //var usuarios = await _usuarioRepository.GetAll();
-            var usuarios = await _unitOfWork.UsuarioRepository.GetAll();
-            var usuario = usuarios.FirstOrDefault(u =>
-                u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-
-
-            if (usuario == null)
-                throw new Exception("No existe una cuenta con ese email");
-
-            if (!string.IsNullOrEmpty(telefono))
-            {
-                if (usuario.Telefono != telefono)
-                    throw new Exception("El número de teléfono no coincide con el registrado");
-            }
-
-
-            var codigo = new Random().Next(100000, 999999).ToString();
-
-
-            _codigosRecuperacion[email.ToLower()] = new CodigoRecuperacion
-            {
-                Codigo = codigo,
-                Expiracion = DateTime.Now.AddMinutes(10),
-                Intentos = 0
-            };
-
-
-            return new SolicitarRecuperacionResponse
-            {
-                Success = true,
-                Message = "Código enviado a tu correo electrónico",
-                Email = usuario.Email,
-                Codigo = codigo,
-                TieneTelefono = !string.IsNullOrEmpty(usuario.Telefono)
-            };
-        }
-
-        public async Task VerificarCodigoYCambiarContraseña(string email, string codigo, string nuevaContraseña)
-        {
-            
-            if (!_codigosRecuperacion.TryGetValue(email.ToLower(), out var codigoGuardado))
-                throw new Exception("No se ha solicitado recuperación para este email");
-
-            // Verificar expiración
-            if (codigoGuardado.Expiracion < DateTime.Now)
-            {
-                _codigosRecuperacion.Remove(email.ToLower());
-                throw new Exception("El código ha expirado. Solicita uno nuevo");
-            }
-
-            
-            if (codigoGuardado.Intentos >= 3)
-            {
-                _codigosRecuperacion.Remove(email.ToLower());
-                throw new Exception("Demasiados intentos fallidos. Solicita un nuevo código");
-            }
-
-           
-            if (codigoGuardado.Codigo != codigo)
-            {
-                codigoGuardado.Intentos++;
-                throw new Exception($"Código incorrecto. Te quedan {3 - codigoGuardado.Intentos} intentos");
-            }
-
-
-            //var usuarios = await _usuarioRepository.GetAll();
-            var usuarios = await _unitOfWork.UsuarioRepository.GetAll();
-            var usuario = usuarios.FirstOrDefault(u =>
-             u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-
-            if (usuario == null)
-                throw new Exception("Usuario no encontrado");
-
-
-            usuario.Password = nuevaContraseña;
-            //await _usuarioRepository.Update(usuario);
-            await _unitOfWork.UsuarioRepository.Update(usuario);
-
-
-            _codigosRecuperacion.Remove(email.ToLower());
+            await _unitOfWork.SaveChangesAsync();
         }
 
 
 
-        public async Task UpdateUsuario(Usuario usuario)
+        public void UpdateUsuario(Usuario usuario)
         {
             //await _usuarioRepository.Update(usuario);
-            await _unitOfWork.UsuarioRepository.Update(usuario);
+             _unitOfWork.UsuarioRepository.Update(usuario);
+            _unitOfWork.SaveChangesAsync();
+
         }
         public async Task DeleteUsuario(int id)
         {
             //await _usuarioRepository.Delete(id);
             await _unitOfWork.UsuarioRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
 

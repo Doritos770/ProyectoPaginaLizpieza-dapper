@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using VentasLimpieza.core.Dtos;
-using VentasLimpieza.core.Entities;
+using VentasLimpieza.Core.Dtos;
 using VentasLimpieza.Core.Entities;
 
 namespace VentasLimpieza.Infrastructure.Mapping
@@ -29,6 +26,15 @@ namespace VentasLimpieza.Infrastructure.Mapping
 
             CreateMap<Pedido, PedidoDto>();
             CreateMap<PedidoDto, Pedido>();
+
+            CreateMap<Codigoseguridad, CodigoseguridadDto>();
+            CreateMap<CodigoseguridadDto, Codigoseguridad>();
+
+            CreateMap<Detallepedido, DetallepedidoDto>();
+            CreateMap<DetallepedidoDto, Detallepedido>();
+
+            CreateMap<Loteproducto, LoteproductoDto>();
+            CreateMap<LoteproductoDto, Loteproducto>();
         }
     }
 }

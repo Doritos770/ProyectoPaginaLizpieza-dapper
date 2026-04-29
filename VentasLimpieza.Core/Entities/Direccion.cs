@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using VentasLimpieza.Core.Entities;
-
-namespace VentasLimpieza.core.Entities;
-
-public partial class Direccion : BaseEntity
+﻿namespace VentasLimpieza.Core.Entities
 {
-    //public int Id { get; set; }
+    public partial class Direccion : BaseEntity
+    {
+     //   public int Id { get; set; }
 
-    public int UsuarioId { get; set; }
+        public int UsuarioId { get; set; }
 
-    public string Direccion1 { get; set; } = null!;
+        public string Direccion1 { get; set; } = null!;
 
-    public string Ciudad { get; set; } = null!;
+        public string Ciudad { get; set; } = null!;
 
-    public string Provincia { get; set; } = null!;
+        public string Provincia { get; set; } = null!;
 
-    public string Pais { get; set; } = null!;
+        public string Pais { get; set; } = null!;
 
-    public ulong Principal { get; set; }
+        public ulong Principal { get; set; }
 
-    public virtual Usuario Usuario { get; set; } = null!;
+        public virtual Usuario Usuario { get; set; } = null!;
+    }
 }

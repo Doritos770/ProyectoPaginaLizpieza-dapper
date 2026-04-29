@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using VentasLimpieza.core.Entities;
 using VentasLimpieza.Core.Entities;
 
 namespace VentasLimpieza.Infrastructure.Data;
@@ -17,10 +16,21 @@ public partial class VentasLimpiezaContext : DbContext
     }
 
     public virtual DbSet<Categoria> Categoria { get; set; }
+
+    public virtual DbSet<Codigoseguridad> Codigoseguridads { get; set; }
+
+    public virtual DbSet<Detallepedido> Detallepedidos { get; set; }
+
     public virtual DbSet<Direccion> Direccions { get; set; }
+
+    public virtual DbSet<Loteproducto> Loteproductos { get; set; }
+
     public virtual DbSet<Pedido> Pedidos { get; set; }
+
     public virtual DbSet<Producto> Productos { get; set; }
+
     public virtual DbSet<Resena> Resenas { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -6,10 +6,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:59171/"
+      "url": "https://localhost:7017"
     },
     {
-      "url": "https://localhost:44313/"
+      "url": "http://localhost:5149"
     }
   ],
   "paths": {
@@ -313,15 +313,17 @@
         ],
         "parameters": [
           {
-            "name": "Id",
+            "name": "Email",
             "in": "query",
             "schema": {
-              "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": [
-                "integer",
-                "string"
-              ],
-              "format": "int32"
+              "type": "string"
+            }
+          },
+          {
+            "name": "Password",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -340,6 +342,13 @@
           },
           {
             "name": "Telefono",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FechaRegistro",
             "in": "query",
             "schema": {
               "type": "string"
@@ -489,84 +498,157 @@
           }
         }
       }
-    },
-    "/api/Usuario/recuperar/solicitar": {
-      "post": {
-        "tags": [
-          "Usuario"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SolicitarRecuperacionDto"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SolicitarRecuperacionDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SolicitarRecuperacionDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SolicitarRecuperacionDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Usuario/recuperar/verificar": {
-      "post": {
-        "tags": [
-          "Usuario"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerificarCodigoDto"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerificarCodigoDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerificarCodigoDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerificarCodigoDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
+      "Categoria": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "imagenUrl": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Producto"
+            }
+          },
+          "id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        }
+      },
+      "Codigoseguridad": {
+        "type": "object",
+        "properties": {
+          "usuarioId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "codigo": {
+            "type": "string"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaExpiracion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usado": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "uint64"
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/Usuario"
+          },
+          "id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        }
+      },
+      "Detallepedido": {
+        "type": "object",
+        "properties": {
+          "pedidoId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "productoId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "loteProductoId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "cantidad": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "precioUnitario": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "subtotal": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "loteProducto": {
+            "$ref": "#/components/schemas/Loteproducto"
+          },
+          "pedido": {
+            "$ref": "#/components/schemas/Pedido"
+          },
+          "producto": {
+            "$ref": "#/components/schemas/Producto"
+          },
+          "id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        }
+      },
       "Direccion": {
         "type": "object",
         "properties": {
@@ -611,10 +693,10 @@
           }
         }
       },
-      "Pedido": {
+      "Loteproducto": {
         "type": "object",
         "properties": {
-          "usuarioId": {
+          "productoId": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",
@@ -622,7 +704,78 @@
             ],
             "format": "int32"
           },
-          "productoId": {
+          "numeroLote": {
+            "type": "string"
+          },
+          "fechaFabricacion": {
+            "type": "string",
+            "format": "date"
+          },
+          "fechaCaducidad": {
+            "type": "string",
+            "format": "date"
+          },
+          "cantidadIngreso": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "cantidadDisponible": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "precioCompra": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "ubicacionAlmacen": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "activo": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "uint64"
+          },
+          "detallepedidos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Detallepedido"
+            }
+          },
+          "producto": {
+            "$ref": "#/components/schemas/Producto"
+          },
+          "id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        }
+      },
+      "Pedido": {
+        "type": "object",
+        "properties": {
+          "usuarioId": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",
@@ -648,22 +801,6 @@
           "metodoPago": {
             "type": "string"
           },
-          "cantidadProducto": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "precioUnitario": {
-            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
-            "type": [
-              "number",
-              "string"
-            ],
-            "format": "double"
-          },
           "total": {
             "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
             "type": [
@@ -672,8 +809,11 @@
             ],
             "format": "double"
           },
-          "producto": {
-            "$ref": "#/components/schemas/Producto"
+          "detallepedidos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Detallepedido"
+            }
           },
           "usuario": {
             "$ref": "#/components/schemas/Usuario"
@@ -700,31 +840,15 @@
               "string"
             ]
           },
+          "categoriaId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
           "marca": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "usoEspecifico": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "ingredientes": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "concentracion": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "fragancia": {
             "type": [
               "null",
               "string"
@@ -733,17 +857,6 @@
           "presentacion": {
             "type": "string"
           },
-          "unidades": {
-            "type": "string"
-          },
-          "cantidadUnidades": {
-            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
-            "type": [
-              "number",
-              "string"
-            ],
-            "format": "double"
-          },
           "precio": {
             "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
             "type": [
@@ -751,33 +864,6 @@
               "string"
             ],
             "format": "double"
-          },
-          "cantidad": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "fechaCaducidad": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "date"
-          },
-          "instruccionesUso": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "precauciones": {
-            "type": [
-              "null",
-              "string"
-            ]
           },
           "imagenUrl": {
             "type": [
@@ -789,18 +875,12 @@
             "type": "string",
             "format": "date"
           },
-          "pedidos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Pedido"
-            }
+          "categoria": {
+            "$ref": "#/components/schemas/Categoria"
           },
-          "resenas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Resena"
-            }
-          },
+          "detallepedidos": { },
+          "loteproductos": { },
+          "resenas": { },
           "id": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
@@ -811,73 +891,7 @@
           }
         }
       },
-      "Resena": {
-        "type": "object",
-        "properties": {
-          "usuarioId": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "productoId": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "calificacion": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "comentario": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "fecha": {
-            "type": "string",
-            "format": "date"
-          },
-          "producto": {
-            "$ref": "#/components/schemas/Producto"
-          },
-          "usuario": {
-            "$ref": "#/components/schemas/Usuario"
-          },
-          "id": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          }
-        }
-      },
-      "SolicitarRecuperacionDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "telefono": {
-            "type": [
-              "null",
-              "string"
-            ]
-          }
-        }
-      },
+      "Resena": { },
       "Usuario": {
         "type": "object",
         "properties": {
@@ -910,6 +924,12 @@
               "string"
             ],
             "format": "uint64"
+          },
+          "codigoseguridads": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Codigoseguridad"
+            }
           },
           "direccions": {
             "type": "array",
@@ -979,20 +999,6 @@
               "string"
             ],
             "format": "uint64"
-          }
-        }
-      },
-      "VerificarCodigoDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "codigo": {
-            "type": "string"
-          },
-          "nuevaContraseña": {
-            "type": "string"
           }
         }
       }

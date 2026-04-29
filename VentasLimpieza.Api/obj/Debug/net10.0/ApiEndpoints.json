@@ -19,7 +19,7 @@
     "Parameters": [
       {
         "Name": "usuario",
-        "Type": "VentasLimpieza.core.Entities.Usuario",
+        "Type": "VentasLimpieza.Core.Entities.Usuario",
         "IsRequired": true
       }
     ],
@@ -35,7 +35,7 @@
     "Parameters": [
       {
         "Name": "usuario",
-        "Type": "VentasLimpieza.core.Entities.Usuario",
+        "Type": "VentasLimpieza.Core.Entities.Usuario",
         "IsRequired": true
       }
     ],
@@ -51,7 +51,7 @@
     "Parameters": [
       {
         "Name": "usuario",
-        "Type": "VentasLimpieza.core.Entities.Usuario",
+        "Type": "VentasLimpieza.Core.Entities.Usuario",
         "IsRequired": true
       }
     ],
@@ -161,8 +161,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -177,6 +182,11 @@
       },
       {
         "Name": "Telefono",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FechaRegistro",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -247,38 +257,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "VentasLimpieza.Api.Controllers.UsuarioController",
-    "Method": "SolicitarCodigo",
-    "RelativePath": "api/Usuario/recuperar/solicitar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "VentasLimpieza.Core.EntidadesAux.SolicitarRecuperacionDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "VentasLimpieza.Api.Controllers.UsuarioController",
-    "Method": "VerificarCodigo",
-    "RelativePath": "api/Usuario/recuperar/verificar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "VentasLimpieza.Core.EntidadesAux.VerificarCodigoDto",
         "IsRequired": true
       }
     ],

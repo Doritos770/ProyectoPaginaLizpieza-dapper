@@ -16,4 +16,5 @@ public partial class ResenaDto
     public string? Comentario { get; set; }
 
     public DateOnly Fecha { get; set; }
+
 }

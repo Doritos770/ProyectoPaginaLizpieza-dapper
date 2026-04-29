@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using VentasLimpieza.core.Entities;
+﻿using VentasLimpieza.core.Interfaces;
 using VentasLimpieza.Core.Entities;
+
 
 namespace VentasLimpieza.Core.Interfaces
 {
@@ -12,9 +10,12 @@ namespace VentasLimpieza.Core.Interfaces
         IBaseRepository<Pedido> PedidoRepository { get; }
         IBaseRepository<Categoria> CategoriaRepository { get; }
         IBaseRepository<Direccion> DireccionRepository { get; }
-        IBaseRepository<Producto> ProductoRepository { get; }
+        IBaseRepository<Producto> ProductoRepository { get; } //darle repository
         IBaseRepository<Resena> ResenaRepository { get; }
-        IBaseRepository<Usuario> UsuarioRepository { get; }
+        IUsuarioRepository UsuarioRepository { get; }//darle repository
+        IBaseRepository<Codigoseguridad> CodigoseguridadRepository { get; }
+        IBaseRepository<Detallepedido> DetallepedidoRepository { get; }//darle repository
+        IBaseRepository<Loteproducto> LoteproductoRepository { get; }//darle repository
         //ahora los commits
         void SaveChanges();
         Task SaveChangesAsync();
