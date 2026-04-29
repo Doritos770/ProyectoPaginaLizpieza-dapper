@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VentasLimpieza.Infrastructure.Queries
 {
-    public static class SlqUsuario
+    public static class slqUsuario
     {
         //public static string unoSql = @"
         //select Id, UserId, Date, Description, Imagen

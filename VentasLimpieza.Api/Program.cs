@@ -29,15 +29,21 @@ namespace VentasLimpieza.Api
             // Registrar repositorios y servicios
             // builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>(); 
 
+            //services
             builder.Services.AddTransient<IUsuarioService, UsuariosService>();
             builder.Services.AddTransient<IProductoService, ProductoService>();
             builder.Services.AddTransient<IDetallepedidoService, DetallepedidoService>();
             builder.Services.AddTransient<ILoteproductoService, LoteproductoService>();
 
+
+
+            //aditamientos
             builder.Services.AddScoped(
                 typeof(IBaseRepository<>), 
                 typeof(BaseRepository<>));
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+            builder.Services.AddScoped<IDapperContext, DapperContext>();
             // Configurar Newtonsoft.Json para manejar ciclos de referencia
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -62,6 +68,8 @@ namespace VentasLimpieza.Api
                           .AllowAnyHeader();
                 });
             });
+
+            builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
