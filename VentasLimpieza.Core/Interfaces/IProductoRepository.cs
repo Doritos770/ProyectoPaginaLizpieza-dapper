@@ -1,13 +1,9 @@
-﻿using VentasLimpieza.core.Entities;
+﻿using VentasLimpieza.Core.Entities;
 
 namespace VentasLimpieza.Core.Interfaces
 {
-    public interface IProductoRepository
+    public interface IProductoRepository : IBaseRepository<Producto>
     {
-        Task<IEnumerable<Producto>> GetProductosAsync();
-        Task<Producto> GetProductoByIdAsync(int id);
-        Task InsertProducto(Producto producto);
-        Task UpdateProducto(Producto producto);
-        Task DeleteProducto(Producto producto);
+
     }
 }

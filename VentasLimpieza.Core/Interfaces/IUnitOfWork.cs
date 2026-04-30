@@ -10,7 +10,8 @@ namespace VentasLimpieza.Core.Interfaces
         IBaseRepository<Pedido> PedidoRepository { get; }
         IBaseRepository<Categoria> CategoriaRepository { get; }
         IBaseRepository<Direccion> DireccionRepository { get; }
-        IBaseRepository<Producto> ProductoRepository { get; } //darle repository
+        //IBaseRepository<Producto> ProductoRepository { get; } //darle repository
+        IProductoRepository ProductoRepository { get; }
         IBaseRepository<Resena> ResenaRepository { get; }
         IUsuarioRepository UsuarioRepository { get; }//darle repository
         IBaseRepository<Codigoseguridad> CodigoseguridadRepository { get; }

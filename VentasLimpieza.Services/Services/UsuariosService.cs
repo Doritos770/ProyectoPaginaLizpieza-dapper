@@ -110,7 +110,7 @@ namespace VentasLimpieza.Services.Services
             //await _usuarioRepository.Update(usuario);
              _unitOfWork.UsuarioRepository.Update(usuario);
             _unitOfWork.SaveChangesAsync();
-
+     
         }
         public async Task DeleteUsuario(int id)
         {
@@ -185,10 +185,5 @@ namespace VentasLimpieza.Services.Services
             "baboso"
         };
 
-
-
-
     }
-
-    
 }

@@ -70,6 +70,7 @@ namespace VentasLimpieza.Services.Services
         public async Task<string> Solicitud_Codigo(int usuarioId)
         {
             return await GenerarCodigoSeguridad(usuarioId);
+           
         }
 
         public async Task<bool> VerificarCodigoPorUsuario(int usuarioId,string codigoSeg)

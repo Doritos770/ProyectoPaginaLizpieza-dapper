@@ -10,7 +10,6 @@
     <Compile Remove="Interfaces\ICategoriaRepository.cs" />
     <Compile Remove="Interfaces\IDireccionRepository.cs" />
     <Compile Remove="Interfaces\IPedidoRepository.cs" />
-    <Compile Remove="Interfaces\IProductoRepository.cs" />
     <Compile Remove="Interfaces\IReseñaRepository.cs" />
   </ItemGroup>
 

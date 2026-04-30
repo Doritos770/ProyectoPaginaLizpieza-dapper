@@ -8,7 +8,7 @@ namespace VentasLimpieza.Services.Services
 {
     public class ProductoService : IProductoService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        public readonly IUnitOfWork _unitOfWork;
 
         public ProductoService(IUnitOfWork unitOfWork)
         {
