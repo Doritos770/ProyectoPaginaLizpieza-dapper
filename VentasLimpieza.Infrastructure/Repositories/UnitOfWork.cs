@@ -8,17 +8,17 @@ namespace VentasLimpieza.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly VentasLimpiezaContext _context;
-        private readonly IBaseRepository<Pedido> _pedidoRepository;//----------hay que hacer
-        private readonly IBaseRepository<Categoria> _categoriaRepository;//------------------van
+        private readonly IBaseRepository<Pedido> _pedidoRepository;
+        private readonly IBaseRepository<Categoria> _categoriaRepository;
         private readonly IBaseRepository<Direccion> _direccionRepository;
-        // private readonly IBaseRepository<Producto> _productoRepository;
-        private readonly IProductoRepository _productoRepository;  //----------------------van 
+        private readonly IBaseRepository<Loteproducto> _loteproductoRepository;
         private readonly IBaseRepository<Resena> _resenaRepository;
-        //  private readonly IBaseRepository<Usuario> _usuarioRepository;
+
+        private readonly IDetallepedidoRepository _detallepedidoRepository;
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly IBaseRepository<Codigoseguridad> _codigoseguridadRepository;//------hay que hacer
-        private readonly IBaseRepository<Detallepedido> _detallepedidoRepository;//-------hay que  hacer
-        private readonly IBaseRepository<Loteproducto> _loteproductoRepository;//-------hay hacer
+        private readonly IProductoRepository _productoRepository;
+        private readonly ICodigoseguridadRepository _codigoseguridadRepository;   
+
         public UnitOfWork(VentasLimpiezaContext context)
         {
             _context = context;
@@ -31,27 +31,28 @@ namespace VentasLimpieza.Infrastructure.Repositories
 
         public IBaseRepository<Direccion> DireccionRepository =>
             _direccionRepository ?? new BaseRepository<Direccion>(_context);
+        public IBaseRepository<Resena> ResenaRepository =>
+            _resenaRepository ?? new BaseRepository<Resena>(_context);
+        
+
+
+
+
+
+        public IBaseRepository<Loteproducto> LoteproductoRepository =>
+         _loteproductoRepository ?? new BaseRepository<Loteproducto>(_context);
+        public IUsuarioRepository UsuarioRepository =>
+            _usuarioRepository ?? new UsuarioRepository(_context);
+
+        public ICodigoseguridadRepository CodigoseguridadRepository =>
+        _codigoseguridadRepository ?? new CodigoseguridadRepository(_context);
 
         public IProductoRepository ProductoRepository =>
             _productoRepository ?? new ProductoRepository(_context);
 
-        public IBaseRepository<Resena> ResenaRepository =>
-            _resenaRepository ?? new BaseRepository<Resena>(_context);
+        public IDetallepedidoRepository DetallepedidoRepository =>
+            _detallepedidoRepository ?? new DetallepedidoRepository(_context);
 
-        //public IUsuarioRepository<Usuario> UsuarioRepository =>
-        //    _usuarioRepository ?? new BaseRepository<Usuario>(_context);
-
-        public IUsuarioRepository UsuarioRepository =>
-            _usuarioRepository ?? new UsuarioRepository(_context);
-
-        public IBaseRepository<Codigoseguridad> CodigoseguridadRepository =>
-        _codigoseguridadRepository ?? new BaseRepository<Codigoseguridad>(_context);
-
-        public IBaseRepository<Detallepedido> DetallepedidoRepository =>
-        _detallepedidoRepository ?? new BaseRepository<Detallepedido>(_context);
-
-        public IBaseRepository<Loteproducto> LoteproductoRepository =>
-        _loteproductoRepository ?? new BaseRepository<Loteproducto>(_context);
 
 
 
